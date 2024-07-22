@@ -22,7 +22,9 @@ jobs:
           sql_model="Реляционная модель"
           comparison="Сравнение моделей"
           conclusion="Вывод"
-
+          query_examples="Примеры запросов"
+          data_examples="Примеры данных"
+           
           if ! [[ -f "${page}" ]]; then 
             echo "::error::Предварительная проверка не пройдена - не найдена вики-страница \"Модель данных\""
             exit 1
@@ -36,6 +38,19 @@ jobs:
 
           if ! cat "${page}" | grep -q "${sql_model}"; then 
             echo "::error::Предварительная проверка не пройдена - не найден заголовок ${sql_model}"
+            exit 1
+          fi
+
+
+          query_examples_count=`cat "${page}" | grep  "${query_examples}" | wc -l`
+          if [[  "${query_examples_count}" != "2" ]]; then 
+            echo "::error::Предварительная проверка не пройдена - не найдены заголовоки ${query_examples} (соответствующие подразделы должны быть в разделах с нереляционной и реляционной моделями)."
+            exit 1
+          fi
+
+          data_examples_count=`cat "${page}" | grep  "${data_examples}" | wc -l`
+          if [[  "${data_examples_count}" != "2" ]]; then 
+            echo "::error::Предварительная проверка не пройдена - не найдены заголовоки ${data_examples} (соответствующие подразделы должны быть в разделах с нереляционной и реляционной моделями)."
             exit 1
           fi
 
