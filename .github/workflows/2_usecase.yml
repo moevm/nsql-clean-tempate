@@ -16,6 +16,7 @@ jobs:
         with:
           repository: ${{github.repository}}.wiki
       - name: check
+        # Не используем скрипт, так как этого bash файла в репозитории wiki не будет.
         run: |
           page="Макет-и-сценарий-использования.md"
           mockup_header="Макет UI"
@@ -30,7 +31,6 @@ jobs:
             echo "::error::Предварительная проверка не пройдена - не найден заголовок ${mockup_header}" 
             exit 1
           fi
-
 
           if ! cat "${page}" | grep -q "${uc_header}"; then 
             echo "::error::Предварительная проверка не пройдена - не найден заголовок ${uc_header}" 
