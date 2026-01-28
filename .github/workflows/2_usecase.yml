@@ -8,19 +8,20 @@ on:
 
 jobs:
   check_mockup_uc_wiki:
-    name: "Проверка наличия вики-страницы \"Макет и сценарий использования\" и разделов \"Макет UI\" \"Сценарий использования\" в ней"
-    runs-on: ubuntu-latest
+    name: 'Проверка наличия вики-страницы "Макет и сценарий использования" и разделов "Макет UI" "Сценарий использования" в ней'
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
         name: Check wiki
         with:
           repository: ${{github.repository}}.wiki
       - name: check
+        # Не используем скрипт, так как этого bash файла в репозитории wiki не будет.
         run: |
           page="Макет-и-сценарий-использования.md"
           mockup_header="Макет UI"
           uc_header="Сценарий использования"
-         
+
           if ! [[ -f "${page}" ]]; then 
             echo "::error::Предварительная проверка не пройдена - не найдена вики-страница \"Макет и сценарий использования\""
             exit 1
@@ -30,7 +31,6 @@ jobs:
             echo "::error::Предварительная проверка не пройдена - не найден заголовок ${mockup_header}" 
             exit 1
           fi
-
 
           if ! cat "${page}" | grep -q "${uc_header}"; then 
             echo "::error::Предварительная проверка не пройдена - не найден заголовок ${uc_header}" 
